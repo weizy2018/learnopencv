@@ -25,15 +25,16 @@ if len(good) > MIN_MATCH_COUNT:
     src_pts = np.float32([kp1[m.queryIdx].pt for m in good]).reshape(-1, 1, 2)
     dst_pts = np.float32([kp2[m.trainIdx].pt for m in good]).reshape(-1, 1, 2)
 
-    print("src_pts.shape: ", src_pts.shape)
-
     M, mask = cv.findHomography(src_pts, dst_pts, cv.RANSAC, 5.0)
     print(M)
     matchesMask = mask.ravel().tolist()
+    # h, w = img1.shape
+    # pts = np.float32([[0, 0], [0, h - 1], [w - 1, h - 1], [w - 1, 0]]).reshape(-1, 1, 2)
+    # dst = cv.perspectiveTransform(pts, M)
+    # img2 = cv.polylines(img2, [np.int32(dst)], True, 255, 3, cv.LINE_AA)
     h, w = img1.shape
-    pts = np.float32([[0, 0], [0, h - 1], [w - 1, h - 1], [w - 1, 0]]).reshape(-1, 1, 2)
-    dst = cv.perspectiveTransform(pts, M)
-    img2 = cv.polylines(img2, [np.int32(dst)], True, 255, 3, cv.LINE_AA)
+    warp = cv.warpPerspective(img1, M, (w, h))
+    cv.imshow("warp", warp)
 else:
     print("Not enough matches are found - {}/{}".format(len(good), MIN_MATCH_COUNT))
     matchesMask = None;
@@ -43,5 +44,10 @@ draw_params = dict(matchColor = (0, 255, 0),
                     matchesMask = matchesMask,
                     flags = 2)
 img3 = cv.drawMatches(img1, kp1, img2, kp2, good, None, **draw_params)
-plt.imshow(img3, 'gray')
-plt.show()
+cv.imshow("img1", img1)
+cv.imshow("img2", img2)
+cv.imshow("img3", img3)
+cv.waitKey(0)
+cv.destroyAllWindows()
+# plt.imshow(img3, 'gray')
+# plt.show()
