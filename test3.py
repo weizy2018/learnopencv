@@ -1,9 +1,9 @@
 import cv2 as cv
 import numpy as np 
 import matplotlib.pyplot as plt 
-images = ["lena.jpg", "pic1.jpg", "pic2.jpg", "Picture1.png"]
+images = ["pic/lena.jpg", "pic/pic1.jpg", "pic/pic2.jpg", "pic/Picture1.png", "pic/xianlu.jpg"]
 
-gamma = 0.4
+gamma = 0.8
 lookUpTable = np.empty((1, 256), np.uint8)
 for i in range(256):
     lookUpTable[0, i] = np.clip(pow(i / 255, gamma) * 255, 0, 255)
