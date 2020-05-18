@@ -21,8 +21,10 @@ cv.namedWindow("rectangle", cv.WINDOW_NORMAL)
 path = "/home/weizy/files/毕设/毕业设计-于孟渤/于孟渤-代码/"
 videoPath = path + "test.mp4"
 
-capture = cv.VideoCapture('/home/weizy/Programs/opencv/opencv-4.1.0/samples/data/vtest.avi')
-# capture = cv.VideoCapture(videoPath)
+videoPath = "/home/weizy/Downloads/my_video.mp4"
+
+# capture = cv.VideoCapture('/home/weizy/Programs/opencv/opencv-4.1.0/samples/data/vtest.avi')
+capture = cv.VideoCapture(videoPath)
 if not capture.isOpened():
     print("can not open the video")
     exit()
