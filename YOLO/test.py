@@ -1,5 +1,6 @@
 import cv2 as cv 
 import numpy as np 
+import os
 
 # Initialize the parameters
 confThreshold = 0.5  #Confidence threshold
@@ -7,7 +8,7 @@ nmsThreshold = 0.4   #Non-maximum suppression threshold
 inpWidth = 416       #Width of network's input image
 inpHeight = 416      #Height of network's input image
 
-classesFile = "/home/weizy/Programs/YOLO/darknet/data/coco.names"
+classesFile = "/home/weizy/Programs/YOLOv4/darknet/data/coco.names"
 classes = None
 with open(classesFile, 'rt') as f:
     classes = f.read().rstrip('\n').split('\n')
@@ -15,7 +16,15 @@ with open(classesFile, 'rt') as f:
 # Give the configuration and weight files for the model and load the network using them.
 modelConfiguration = "/home/weizy/Programs/YOLO/darknet/cfg/yolov3.cfg"
 modelWeights = "/home/weizy/Programs/YOLO/yolov3.weights"
- 
+
+if not os.path.exists(modelConfiguration):
+    print("file not found1")
+    exit()
+if not os.path.exists(modelWeights):
+    print("file not found2")
+    exit()
+
+
 net = cv.dnn.readNetFromDarknet(modelConfiguration, modelWeights)
 net.setPreferableBackend(cv.dnn.DNN_BACKEND_OPENCV)
 net.setPreferableTarget(cv.dnn.DNN_TARGET_CPU)
